@@ -1,5 +1,10 @@
 {
-  "name": "anthorvia",
-  "displayName": "Anthorvia",
-  "version": "1.0.0"
+  "expo": {
+    "name": "Anthorvia",
+    "slug": "anthorvia",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.anthorvia.app"
+    }
+  }
 }
