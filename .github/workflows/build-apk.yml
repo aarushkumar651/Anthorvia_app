@@ -9,26 +9,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Node 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
       - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Install dependencies
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install npm dependencies
         run: npm install
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Android SDK build tools
+        run: |
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" "platforms;android-34" "platform-tools"
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > android/local.properties
       - name: Make gradlew executable
         run: chmod +x android/gradlew
       - name: Build Debug APK
-        run: cd android && ./gradlew assembleDebug --no-daemon --warning-mode=all
-      - name: Upload APK
+        run: cd android && ./gradlew assembleDebug --no-daemon
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Anthorvia-APK
